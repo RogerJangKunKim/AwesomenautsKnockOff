@@ -7,6 +7,7 @@ game.PlayScreen = me.ScreenObject.extend({
 		game.data.score = 0;
 
 
+		//searches and loads the map.
 		me.levelDirector.loadLevel("level01");
 
 		// add our HUD to the game world
