@@ -10,7 +10,8 @@ game.PlayScreen = me.ScreenObject.extend({
 		//searches and loads the map.
 		me.levelDirector.loadLevel("level01");
 
-
+		//adding the player to the game screen.
+		//0, 420 are the coordinates where we want our player to appear on the map.
 		var player = me.pool.pull("player", 0, 420, {});
 		me.game.world.addChild(player, 5);
 
