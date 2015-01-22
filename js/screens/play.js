@@ -10,6 +10,10 @@ game.PlayScreen = me.ScreenObject.extend({
 		//searches and loads the map.
 		me.levelDirector.loadLevel("level01");
 
+
+		var player = me.pool.pull("player", 0, 420, {});
+		me.game.world.addChild(player, 5);
+
 		// add our HUD to the game world
 		this.HUD = new game.HUD.Container();
 		me.game.world.addChild(this.HUD);
