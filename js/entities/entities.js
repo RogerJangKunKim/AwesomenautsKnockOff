@@ -12,7 +12,13 @@ game.PlayerEntity = me.Entity.extend({
 			}
 		}]);
 		//adds gravity.
-		this.body.setVelocity(5, 20);
+		this.body.setVelocity(10, 20);
+
+		this.renderable.addAnimation("idle", [78]);
+		this.renderable.addAnimation("rwalk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 30);
+		this.renderable.addAnimation("lwalk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 30);
+
+		this.renderable.setCurrentAnimation("idle");
 
 	},
 
@@ -22,9 +28,16 @@ game.PlayerEntity = me.Entity.extend({
 			//setVelocity() and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth.
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			if(me.input.isKeyPressed("up")){
+				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
+
 		}
 		else if(me.input.isKeyPressed("left")){
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+			if(me.input.isKeyPressed("up")){
+				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
 		}
 		else if(me.input.isKeyPressed("up")){
 			this.body.vel.y -= this.body.accel.y * me.timer.tick;
@@ -32,12 +45,32 @@ game.PlayerEntity = me.Entity.extend({
 		else if(me.input.isKeyPressed("down")){
 			this.body.vel.y += this.body.accel.y * me.timer.tick;
 		}
+
 		else{
 			this.body.vel.x = 0;
-			this.body.vel.y = 0;
+			this.body.vel.y = 5;
 
 		}
+
+		if(this.body.vel.x >0){
+			if(!this.renderable.isCurrentAnimation("rwalk")){
+				this.renderable.setCurrentAnimation("rwalk");
+			}
+		}	
+		else if(this.body.vel.x <0){
+			if(!this.renderable.isCurrentAnimation("lwalk")){
+				this.renderable.setCurrentAnimation("lwalk");
+			}
+		}	
+
+		else{
+			this.renderable.setCurrentAnimation("idle");
+		}
+
 		this.body.update(delta);
+
+		this._super(me.Entity, "update", [delta]);
+
 		return true;
 
 	}
