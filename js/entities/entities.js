@@ -14,10 +14,13 @@ game.PlayerEntity = me.Entity.extend({
 		//adds gravity.
 		this.body.setVelocity(10, 20);
 
+		//selects the sprites to use on the sprite sheet.
 		this.renderable.addAnimation("idle", [78]);
 		this.renderable.addAnimation("rwalk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 30);
 		this.renderable.addAnimation("lwalk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 30);
+		this.renderable.addAnimation("jump", [30, 31], 80);
 
+		//sets the default animation.
 		this.renderable.setCurrentAnimation("idle");
 
 	},
@@ -51,7 +54,7 @@ game.PlayerEntity = me.Entity.extend({
 			this.body.vel.y = 5;
 
 		}
-
+		//if player moves to the right, then sets animation to "rwalk."
 		if(this.body.vel.x >0){
 			if(!this.renderable.isCurrentAnimation("rwalk")){
 				this.renderable.setCurrentAnimation("rwalk");
@@ -60,6 +63,11 @@ game.PlayerEntity = me.Entity.extend({
 		else if(this.body.vel.x <0){
 			if(!this.renderable.isCurrentAnimation("lwalk")){
 				this.renderable.setCurrentAnimation("lwalk");
+			}
+		}	
+		else if(this.body.vel.y >0){
+			if(!this.renderable.isCurrentAnimation("jump")){
+				this.renderable.setCurrentAnimation("jump");
 			}
 		}	
 
