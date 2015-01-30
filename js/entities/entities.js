@@ -85,6 +85,7 @@ game.PlayerEntity = me.Entity.extend({
 
 });
 
+//gives property to the player and enemy base.
 game.PlayerBaseEntity = me.Entity.extend({
 	init: function(x, y, settings){
 		this._super(me.Entity, 'init', [x, y, {

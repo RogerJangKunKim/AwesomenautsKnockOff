@@ -4,7 +4,7 @@ game.resources = [
 	 * @example
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
-	 //initializes the background tiles/player images.
+	 //initializes the background tiles/player images/tower images.
 	 {name: "background-tiles", type:"image", src: "data/img/background-tiles.png"},
 	 {name: "meta-tiles", type:"image", src: "data/img/meta-tiles.png"},
 	 {name: "player", type:"image", src: "data/img/archer.png"},
