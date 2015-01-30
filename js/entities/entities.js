@@ -14,6 +14,7 @@ game.PlayerEntity = me.Entity.extend({
 		//adds gravity.
 		this.body.setVelocity(10, 20);
 
+		//screen will be fixed on wherever the player goes.
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 
 		//selects the sprites to use on the sprite sheet.
