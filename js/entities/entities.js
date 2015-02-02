@@ -19,6 +19,7 @@ game.PlayerEntity = me.Entity.extend({
 
 		//selects the sprites to use on the sprite sheet.
 		this.renderable.addAnimation("idle", [78]);
+		this.renderable.addAnimation("attack", [65, 66, 67, 68, 69, 70, 71, 72], 80);
 		this.renderable.addAnimation("rwalk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 30);
 		this.renderable.addAnimation("lwalk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 30);
 		this.renderable.addAnimation("jump", [30, 31], 80);
@@ -57,8 +58,19 @@ game.PlayerEntity = me.Entity.extend({
 			this.body.vel.y = 5;
 
 		}
+
+
+
+		if(me.input.isKeyPressed("attack")){
+			if(!this.renderable.isCurrentAnimation("attack")){
+				//sets current animation to attack then back to idle
+				this.renderable.setCurrentAnimation("attack", "idle");
+				//starts from first animation not from where left off.
+				this.renderable.setAnimationFrame();
+			}
+		}
 		//if player moves to the right, then sets animation to "rwalk."
-		if(this.body.vel.x >0){
+		else if(this.body.vel.x >0){
 			if(!this.renderable.isCurrentAnimation("rwalk")){
 				this.renderable.setCurrentAnimation("rwalk");
 			}
@@ -77,6 +89,8 @@ game.PlayerEntity = me.Entity.extend({
 		else{
 			this.renderable.setCurrentAnimation("idle");
 		}
+
+
 
 		this.body.update(delta);
 
