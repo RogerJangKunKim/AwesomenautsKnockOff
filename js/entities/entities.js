@@ -38,12 +38,30 @@ game.PlayerEntity = me.Entity.extend({
 			if(me.input.isKeyPressed("up")){
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
 			}
+			else if(me.input.isKeyPressed("attack")){
+				if(!this.renderable.isCurrentAnimation("attack")){
+					//sets current animation to attack then back to idle
+					this.renderable.setCurrentAnimation("attack", "idle");
+					//starts from first animation not from where left off.
+					this.renderable.setAnimationFrame();
+					this.flipX(true);
+				}
+			}
 
 		}
 		else if(me.input.isKeyPressed("left")){
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
 			if(me.input.isKeyPressed("up")){
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
+			else if(me.input.isKeyPressed("attack")){
+				if(!this.renderable.isCurrentAnimation("attack")){
+					//sets current animation to attack then back to idle
+					this.renderable.setCurrentAnimation("attack", "idle");
+					//starts from first animation not from where left off.
+					this.renderable.setAnimationFrame();
+					this.flipX(false);
+				}
 			}
 		}
 		else if(me.input.isKeyPressed("up")){
@@ -57,6 +75,11 @@ game.PlayerEntity = me.Entity.extend({
 			this.body.vel.x = 0;
 			this.body.vel.y = 5;
 
+		}
+
+		if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling){
+			this.jumping = true;
+			this.body.vel.y -= this.body.accel.y * me.timer.tick;
 		}
 
 
@@ -112,7 +135,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 			spritewidth: "100",
 			spriteheight: "100",
 			getShape: function(){
-				return (new me.Rect(0, 0, 100, 100)).toPolygon();
+				return (new me.Rect(0, 0, 100, 70)).toPolygon();
 			}
 		}]);
 		this.broken = false;
@@ -151,7 +174,7 @@ game.EnemyBaseEntity = me.Entity.extend({
 			spritewidth: "100",
 			spriteheight: "100",
 			getShape: function(){
-				return (new me.Rect(0, 0, 100, 100)).toPolygon();
+				return (new me.Rect(0, 0, 100, 70)).toPolygon();
 			}
 		}]);
 		this.broken = false;
