@@ -133,8 +133,13 @@ game.PlayerEntity = me.Entity.extend({
 		if(response.b.type==="EnemyBaseEntity"){
 			var ydif = this.pos.y - response.b.pos.y;
 			var xdif = this.pos.x - response.b.pos.x;
+			//won't let the player go through the base from above.
+			if(ydif<-40 && xdif<70 && xdif>-35){
+				this.body.falling = false;
+				this.body.vel.y = -1;
+			}
 			//if on right side, player will be blocked from moving into the base
-			if(xdif>-35 && this.facing==="right" && (xdif<0)){
+			else if(xdif>-35 && this.facing==="right" && (xdif<0)){
 				this.body.vel.x = 0;
 				this.pos.x = this.pos.x - 1;
 			}
