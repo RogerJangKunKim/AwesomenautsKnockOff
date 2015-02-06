@@ -14,6 +14,9 @@ game.PlayerEntity = me.Entity.extend({
 		//adds gravity.
 		this.body.setVelocity(10, 20);
 
+		//keeps track of the direction of the character
+		this.facing = "right";
+
 		//screen will be fixed on wherever the player goes.
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
 
@@ -35,6 +38,7 @@ game.PlayerEntity = me.Entity.extend({
 			//setVelocity() and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth.
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			this.facing = "right";
 			if(me.input.isKeyPressed("up")){
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
 			}
@@ -51,6 +55,7 @@ game.PlayerEntity = me.Entity.extend({
 		}
 		else if(me.input.isKeyPressed("left")){
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+			this.facing = "left";
 			if(me.input.isKeyPressed("up")){
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
 			}
@@ -114,13 +119,31 @@ game.PlayerEntity = me.Entity.extend({
 		}
 
 
-
+		me.collision.check(this, true, this.collideHandler.bind(this), true);
 		this.body.update(delta);
 
 		this._super(me.Entity, "update", [delta]);
 
 		return true;
 
+	},
+
+	//keeps track of the objects
+	collideHandler: function(response){
+		if(response.b.type==="EnemyBaseEntity"){
+			var ydif = this.pos.y - response.b.pos.y;
+			var xdif = this.pos.x - response.b.pos.x;
+			//if on right side, player will be blocked from moving into the base
+			if(xdif>-35 && this.facing==="right" && (xdif<0)){
+				this.body.vel.x = 0;
+				this.pos.x = this.pos.x - 1;
+			}
+			//if on left side, player will be blocked from moving into the base.
+			else if(xdif<70 && this.facing==="left" && (xdif>0)){
+				this.body.vel.x = 0;
+				this.pos.x = this.pos.x + 1;
+			}
+		}
 	}
 
 });
@@ -195,6 +218,8 @@ game.EnemyBaseEntity = me.Entity.extend({
 			this.renderable.setCurrentAnimation("broken");
 		}
 		this.body.update(delta);
+
+
 
 		this._super(me.Entity, "update", [delta]);
 		return true;
