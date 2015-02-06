@@ -16,6 +16,9 @@ game.PlayerEntity = me.Entity.extend({
 
 		//keeps track of the direction of the character
 		this.facing = "right";
+		this.now = new Date().getTime();
+		this.lastHit = this.now;
+		this.lastAttack = new Date().getTime();
 
 		//screen will be fixed on wherever the player goes.
 		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
@@ -23,8 +26,7 @@ game.PlayerEntity = me.Entity.extend({
 		//selects the sprites to use on the sprite sheet.
 		this.renderable.addAnimation("idle", [78]);
 		this.renderable.addAnimation("attack", [65, 66, 67, 68, 69, 70, 71, 72], 80);
-		this.renderable.addAnimation("rwalk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 30);
-		this.renderable.addAnimation("lwalk", [117, 118, 119, 120, 121, 122, 123, 124, 125], 30);
+		this.renderable.addAnimation("walk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 30);
 		this.renderable.addAnimation("jump", [30, 31], 80);
 
 		//sets the default animation.
@@ -33,40 +35,25 @@ game.PlayerEntity = me.Entity.extend({
 	},
 
 	update: function(delta){
+		this.now = new Date().getTime();
 		if(me.input.isKeyPressed("right")){
 			//adds to the position of my x by the velocity defined above
 			//setVelocity() and multiplying it by me.timer.tick
 			//me.timer.tick makes the movement look smooth.
 			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			this.flipX(false);
 			this.facing = "right";
 			if(me.input.isKeyPressed("up")){
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
-			}
-			else if(me.input.isKeyPressed("attack")){
-				if(!this.renderable.isCurrentAnimation("attack")){
-					//sets current animation to attack then back to idle
-					this.renderable.setCurrentAnimation("attack", "idle");
-					//starts from first animation not from where left off.
-					this.renderable.setAnimationFrame();
-					this.flipX(true);
-				}
 			}
 
 		}
 		else if(me.input.isKeyPressed("left")){
 			this.body.vel.x -= this.body.accel.x * me.timer.tick;
+			this.flipX(true);
 			this.facing = "left";
 			if(me.input.isKeyPressed("up")){
 				this.body.vel.y -= this.body.accel.y * me.timer.tick;
-			}
-			else if(me.input.isKeyPressed("attack")){
-				if(!this.renderable.isCurrentAnimation("attack")){
-					//sets current animation to attack then back to idle
-					this.renderable.setCurrentAnimation("attack", "idle");
-					//starts from first animation not from where left off.
-					this.renderable.setAnimationFrame();
-					this.flipX(false);
-				}
 			}
 		}
 		else if(me.input.isKeyPressed("up")){
@@ -95,17 +82,13 @@ game.PlayerEntity = me.Entity.extend({
 				this.renderable.setCurrentAnimation("attack", "idle");
 				//starts from first animation not from where left off.
 				this.renderable.setAnimationFrame();
+				this.flipX(true);
 			}
 		}
 		//if player moves to the right, then sets animation to "rwalk."
-		else if(this.body.vel.x >0){
-			if(!this.renderable.isCurrentAnimation("rwalk")){
-				this.renderable.setCurrentAnimation("rwalk");
-			}
-		}	
-		else if(this.body.vel.x <0){
-			if(!this.renderable.isCurrentAnimation("lwalk")){
-				this.renderable.setCurrentAnimation("lwalk");
+		else if(this.body.vel.x !==0 && !this.renderable.isCurrentAnimation("attack")){
+			if(!this.renderable.isCurrentAnimation("walk")){
+				this.renderable.setCurrentAnimation("walk");
 			}
 		}	
 		else if(this.body.vel.y >0){
@@ -114,7 +97,7 @@ game.PlayerEntity = me.Entity.extend({
 			}
 		}	
 
-		else{
+		else if(!this.renderable.isCurrentAnimation("attack")){
 			this.renderable.setCurrentAnimation("idle");
 		}
 
@@ -147,6 +130,11 @@ game.PlayerEntity = me.Entity.extend({
 			else if(xdif<70 && this.facing==="left" && (xdif>0)){
 				this.body.vel.x = 0;
 				this.pos.x = this.pos.x + 1;
+			}
+
+			if(this.renderable.isCurrentAnimation("attack") && this.now-this.lastHit >= 1000){
+				this.lastHit = this.now;
+				response.b.loseHealth();
 			}
 		}
 	}
@@ -232,5 +220,9 @@ game.EnemyBaseEntity = me.Entity.extend({
 
 	onCollision: function(){
 		
+	},
+	//everytime a base gets hit, they will lose health.
+	loseHealth: function(){
+		this.health--;
 	}
 });
