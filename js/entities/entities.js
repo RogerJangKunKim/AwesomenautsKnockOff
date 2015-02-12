@@ -168,6 +168,7 @@ game.PlayerBaseEntity = me.Entity.extend({
 		this.type = "PlayerBase";
 
 		this.renderable.addAnimation("idle", [0]);
+		this.renderable.addAnimation("broken", [1]);
 		this.renderable.setCurrentAnimation("idle");
 	},
 	update:function(delta){
@@ -276,14 +277,13 @@ game.EnemyCreep = me.Entity.extend({
 
 		this._super(me.Entity, "update", [delta]);
 
-		if(this.body.vel.x === 0){
-			
-		},
+		return true;
+	},
 
 		collideHandler: function(response){
 			if(response.b.type==="PlayerBase"){
 				this.attacking = true;
-				this.lastAttacking = this.now;
+				//this.lastAttacking = this.now;
 				this.body.vel.x = 0;
 				//keeps moving to the right to maintain its position
 				this.pos.x = this.pos.x + 1;
@@ -315,10 +315,8 @@ game.EnemyCreep = me.Entity.extend({
 					}
 				}
 			}
-		}
 
-		return true;
-	}
+		}
 });
 
 game.GameManager = Object.extend({
@@ -335,7 +333,7 @@ game.GameManager = Object.extend({
 			this.lastCreep = this.now;
 			var creepe = me.pool.pull("EnemyCreep", 1000, 0);
 			me.game.world.addChild(creepe, 5);
-		}, 
+		} 
 		return true;
 	}
 });
