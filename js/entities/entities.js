@@ -364,6 +364,7 @@ game.EnemyCreep = me.Entity.extend({
 		
 });
 
+
 game.GameManager = Object.extend({
 	init: function(x, y, settings){
 		this.now = new Date().getTime();

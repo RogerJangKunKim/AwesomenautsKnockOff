@@ -9,11 +9,14 @@ var game = {
 		enemyBaseHealth: 10,
 		playerBaseHealth: 10,
 		enemyCreepHealth: 10,
+		playerCreepHealth: 10,
 		playerHealth: 10,
 		enemyCreepAttack: 1,
+		playerCreepAttack: 1,
 		playerAttack: 1,
 		playerAttackTimer: 1000,
 		enemyCreepAttackTimer: 1000,
+		playerCreepAttackTimer: 1000,
 		playerMoveSpeed: 20,
 		creepMoveSpeed: 10,
 		gameManager: "",
@@ -57,6 +60,7 @@ var game = {
 		me.pool.register("PlayerBase", game.PlayerBaseEntity);
 		me.pool.register("EnemyBase", game.EnemyBaseEntity);
 		me.pool.register("EnemyCreep", game.EnemyCreep, true);
+		me.pool.register("PlayerCreep", game.PlayerCreep, true);
 		me.pool.register("GameManager", game.GameManager);
 
 		me.state.set(me.state.MENU, new game.TitleScreen());
