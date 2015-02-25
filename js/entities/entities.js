@@ -1,6 +1,23 @@
 //giving the player its properties/initiallizing the player.
 game.PlayerEntity = me.Entity.extend({
 	init: function(x, y, settings){
+		//refactored this init function.
+		this.setSuper();
+		this.setPlayerTimers();
+		this.setAttributes();
+		this.type = "PlayerEntity";
+		this.setFlags();
+
+		//screen will be fixed on wherever the player goes.
+		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
+
+		this.addAnimation();
+
+		//sets the default animation.
+		this.renderable.setCurrentAnimation("idle");
+	},
+
+	setSuper: function(){
 		this._super(me.Entity, "init", [x, y, { //me.Entity is the type.
 			image: "player",
 			width: 64,
@@ -11,32 +28,35 @@ game.PlayerEntity = me.Entity.extend({
 				return(new me.Rect(0, 0, 64, 64)).toPolygon();
 			}
 		}]);
-		this.type = "PlayerEntity";
+	},
+
+	setPlayerTimers: function(){
+		this.now = new Date().getTime();
+		this.lastHit = this.now;
+		this.lastAttack = new Date().getTime();
+	},
+
+	setAttributes: function(){
 		//game.data allows property to be controlled from game.js
 		this.health = game.data.playerHealth;
 		//adds gravity.
 		this.body.setVelocity(game.data.playerMoveSpeed, 20);
+		this.attack = game.data.playerAttack;
 
+	},
+
+	setFlags: function(){
 		//keeps track of the direction of the character
 		this.facing = "right";
-		this.now = new Date().getTime();
-		this.lastHit = this.now;
 		this.dead = false;
-		this.attack = game.data.playerAttack;
-		this.lastAttack = new Date().getTime();
+	},
 
-		//screen will be fixed on wherever the player goes.
-		me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
-
+	addAnimation: function(){
 		//selects the sprites to use on the sprite sheet.
 		this.renderable.addAnimation("idle", [78]);
 		this.renderable.addAnimation("attack", [65, 66, 67, 68, 69, 70, 71, 72], 80);
 		this.renderable.addAnimation("walk", [143, 144, 145, 146, 147, 148, 149, 150, 151], 30);
 		this.renderable.addAnimation("jump", [30, 31], 80);
-
-		//sets the default animation.
-		this.renderable.setCurrentAnimation("idle");
-
 	},
 
 	update: function(delta){
