@@ -61,48 +61,12 @@ game.PlayerEntity = me.Entity.extend({
 
 	update: function(delta){
 		this.now = new Date().getTime();
-		//restarts the player
-		if(this.health <= 0){
-			this.dead = true;
-		}
 
-		if(me.input.isKeyPressed("right")){
-			//adds to the position of my x by the velocity defined above
-			//setVelocity() and multiplying it by me.timer.tick
-			//me.timer.tick makes the movement look smooth.
-			this.body.vel.x += this.body.accel.x * me.timer.tick;
-			this.flipX(false);
-			this.facing = "right";
-			if(me.input.isKeyPressed("up")){
-				this.body.vel.y -= this.body.accel.y * me.timer.tick;
-			}
+		this.dead = checkIfDead();
 
-		}
-		else if(me.input.isKeyPressed("left")){
-			this.body.vel.x -= this.body.accel.x * me.timer.tick;
-			this.facing = "left";
-			this.flipX(true);
-			if(me.input.isKeyPressed("up")){
-				this.body.vel.y -= this.body.accel.y * me.timer.tick;
-			}
-		}
-		else if(me.input.isKeyPressed("up")){
-			this.body.vel.y -= this.body.accel.y * me.timer.tick;
-		}
-		else if(me.input.isKeyPressed("down")){
-			this.body.vel.y += this.body.accel.y * me.timer.tick;
-		}
+		this.checkKeyPressesAndMovement();
 
-		else{
-			this.body.vel.x = 0;
-			this.body.vel.y = 5;
-
-		}
-		//allows the player to jump once.
-		if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling){
-			this.jumping = true;
-			this.body.vel.y -= this.body.accel.y * me.timer.tick;
-		}
+		
 
 
 
@@ -139,6 +103,64 @@ game.PlayerEntity = me.Entity.extend({
 
 		return true;
 
+	},
+
+	checkIfDead: function(){
+		//restarts the player
+		if(this.health <= 0){
+			return true;
+		}
+		return false;
+	},
+
+	checkKeyPressesAndMovement: function(){
+		if(me.input.isKeyPressed("right")){
+			this.moveRight();
+		}
+		else if(me.input.isKeyPressed("left")){
+			this.moveLeft();
+					}
+		else if(me.input.isKeyPressed("up")){
+			this.body.vel.y -= this.body.accel.y * me.timer.tick;
+		}
+		else if(me.input.isKeyPressed("down")){
+			this.body.vel.y += this.body.accel.y * me.timer.tick;
+		}
+
+		else{
+			this.body.vel.x = 0;
+			this.body.vel.y = 5;
+
+		}
+		//allows the player to jump once.
+		if(me.input.isKeyPressed("jump") && !this.jumping && !this.falling){
+			this.jump();
+		}
+	},
+	moveRight: function(){
+		//adds to the position of my x by the velocity defined above
+			//setVelocity() and multiplying it by me.timer.tick
+			//me.timer.tick makes the movement look smooth.
+			this.body.vel.x += this.body.accel.x * me.timer.tick;
+			this.flipX(false);
+			this.facing = "right";
+			if(me.input.isKeyPressed("up")){
+				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
+
+	},
+	moveLeft: function(){
+		this.body.vel.x -= this.body.accel.x * me.timer.tick;
+			this.facing = "left";
+			this.flipX(true);
+			if(me.input.isKeyPressed("up")){
+				this.body.vel.y -= this.body.accel.y * me.timer.tick;
+			}
+
+	},
+	jump: function(){
+		this.body.jumping = true;
+		this.body.vel.y -= this.body.accel.y * me.timer.tick;
 	},
 
 	loseHealth: function(damage){
