@@ -12,8 +12,11 @@ game.PlayScreen = me.ScreenObject.extend({
 
 		this.resetPlayer(0, 420);
 
-		var gamemanager = me.pool.pull("GameManager", 0, 0, {});
-		me.game.world.addChild(gamemanager, 0);
+		var gameTimerManager = me.pool.pull("GameTimerManager", 0, 0, {});
+		me.game.world.addChild(gameTimerManager, 0);
+
+		var heroDeathManager = me.pool.pull("HeroDeathManager", 0, 0, {});
+		me.game.world.addChild(heroDeathManager, 0);
 
 		//binding keys for movement.
 		//"right" represents the right key.
@@ -27,7 +30,7 @@ game.PlayScreen = me.ScreenObject.extend({
 		// add our HUD to the game world
 		this.HUD = new game.HUD.Container();
 		me.game.world.addChild(this.HUD);
-		me.audio.playTrack("ariana1");
+		me.audio.playTrack("blankSpace");
 	},
 
 
