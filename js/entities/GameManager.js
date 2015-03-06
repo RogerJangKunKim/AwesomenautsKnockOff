@@ -17,7 +17,7 @@ game.GameTimerManager = Object.extend({
 		//gives you 1 gold for every other enemy creep that spawns. so every 20 seconds
 		if(Math.round(this.now/1000)%20 === 0 && (this.now - this.lastCreep >= 1000)){
 			game.data.gold += 1;
-			console.log("Current gold: ");
+			console.log("Current gold: " + game.data.gold);
 		} 
 	},
 
@@ -55,11 +55,10 @@ game.ExperienceManager = Object.extend({
 	},
 
 	update: function(){
-		Over: function(){}
-		if(game.data.win === true $$ !this.gameOver){
+		if(game.data.win === true && !this.gameover){
 			this.gameOver(true);
 		}
-		else if(game.data.win === false && !this.gameOver){
+		else if(game.data.win === false && !this.gameover){
 			this.gameOver(false);
 		}
 		return true;
@@ -72,8 +71,8 @@ game.ExperienceManager = Object.extend({
 		else{
 			game.data.exp += 1;
 		}
-			
-			this.gameOver = true;
+			console.log(game.data.exp);
+			this.gameover = true;
 			me.save.exp = game.data.exp;
 	},
 });
