@@ -187,6 +187,7 @@ game.SpendGold = Object.extend({
 	checkCost: function(skill){
 		if(skill === 1 && (game.data.gold >= ((game.data.skill1 + 1)*10))){ //if i have enough money to buy the skill, then returns true
 			return true;
+		}
 		else if(skill === 2 && (game.data.gold >= ((game.data.skill2 + 1)*10))){ //if i have enough money to buy the skill, then returns true
 			return true;
 		}
