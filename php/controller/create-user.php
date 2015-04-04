@@ -12,7 +12,7 @@
 	$hashedPassword = crypt($password, $salt);
 
 	$query = $_SESSION["connection"]->query("INSERT INTO users SET "
-		. "email = '$email',"
+		. "email = '',"
 		. "username = '$username',"
 		. "password = '$hashedPassword',"
 		. "salt = '$salt', "
@@ -28,7 +28,6 @@
 	}
 	else{
 		echo "<p>" . $_SESSION["connection"]->error . "</p>";
-		echo "<li><a href=" . "$path" . "view/register-form.php" . ">Try Again</li>";
 	}
 
 ?>
