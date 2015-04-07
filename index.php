@@ -55,7 +55,9 @@
 		<script type="text/javascript" src="js/gamemanagers/GameManager.js"></script>
 		<script type="text/javascript" src="js/gamemanagers/GameTimerManager.js"></script>
 		<script type="text/javascript" src="js/gamemanagers/SpendGold.js"></script>
+		<script type="text/javascript" src="js/gamemanagers/PauseScreen.js"></script>
 		<script type="text/javascript" src="js/gamemanagers/HeroDeathManager.js"></script>
+		<script type="text/javascript" src="js/entities/SpearThrow.js"></script>
 		<script type="text/javascript" src="js/entities/HUD.js"></script>
 
 		<script type="text/javascript" src="js/screens/title.js"></script>
@@ -100,12 +102,12 @@
 				url: "php/controller/create-user.php",
 				data: {
 					username: $("#username").val(),
-					password: $("password").val()
+					password: $("password").val(),
 				},
 				dataType: "text"
 			})
 			.success(function(response){
-				if(response===true){
+				if(response==="true"){
 					me.state.change(me.state.PLAY);
 				}
 				else{

@@ -21,9 +21,10 @@ var game = {
 		creepMoveSpeed: 10,
 		gameTimerManager: "",
 		heroDeathManager: "",
+		spearTimer: 15,
 		player: "",
 		exp: 0,
-		gold: 0,
+		gold: 10,
 		ability1: 0,
 		ability2: 0,
 		ability3: 0,
@@ -37,7 +38,8 @@ var game = {
 		win: "",
 		pausePos: "",
 		buyScreen: "",
-		buytext: ""
+		buytext: "",
+		pausetext: ""
 	},
 	
 	
@@ -88,6 +90,8 @@ var game = {
 		me.pool.register("HeroDeathManager", game.HeroDeathManager);
 		me.pool.register("ExperienceManager", game.ExperienceManager);
 		me.pool.register("SpendGold", game.SpendGold);
+		me.pool.register("PauseScreen", game.PauseScreen);
+		me.pool.register("spear", game.SpearThrow);
 
 		me.state.set(me.state.MENU, new game.TitleScreen());
 		me.state.set(me.state.PLAY, new game.PlayScreen());

@@ -31,11 +31,11 @@ game.ExperienceManager = Object.extend({
 				type: "POST",
 				url: "php/controller/save-user.php",
 				data: {
-					exp: game.data.exp;
-					exp1: game.data.exp1;
-					exp2: game.data.exp2;
-					exp3: game.data.exp3;
-					exp4: game.data.exp4;
+					exp: game.data.exp,
+					exp1: game.data.exp1,
+					exp2: game.data.exp2,
+					exp3: game.data.exp3,
+					exp4: game.data.exp4,
 				},
 				dataType: "text"
 			})
