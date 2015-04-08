@@ -59,6 +59,8 @@
 		<script type="text/javascript" src="js/gamemanagers/PauseScreen.js"></script>
 		<script type="text/javascript" src="js/gamemanagers/HeroDeathManager.js"></script>
 		<script type="text/javascript" src="js/entities/SpearThrow.js"></script>
+		<script type="text/javascript" src="js/entities/MiniMap.js"></script>
+		<script type="text/javascript" src="js/entities/MiniPlayerLocation.js"></script>
 		<script type="text/javascript" src="js/entities/HUD.js"></script>
 
 		<script type="text/javascript" src="js/screens/title.js"></script>
@@ -120,6 +122,7 @@
 			});
 		});
 		$("#load").bind("click", function(){
+			me.state.change(me.state.SPENDEXP);
 			$.ajax({
 				type: "POST",
 				url: "php/controller/login-user.php",

@@ -27,6 +27,9 @@ game.PlayScreen = me.ScreenObject.extend({
 		var pauseScreen = me.pool.pull("PauseScreen", 0, 0, {});
 		me.game.world.addChild(pauseScreen, 0);
 
+		game.data.minimap = me.pool.pull("minimap", 10, 10, {}); //registered to out pool
+		me.game.world.addChild(game.data.minimap, 30);
+
 		//binding keys for movement.
 		//"right" represents the right key.
 		me.input.bindKey(me.input.KEY.Q, "skill1");
@@ -62,6 +65,8 @@ game.PlayScreen = me.ScreenObject.extend({
 		//0, 420 are the coordinates where we want our player to appear on the map.
 		game.data.player = me.pool.pull("player", x, y, {});
 		me.game.world.addChild(game.data.player, 5);
+		game.data.miniPlayer = me.pool.pull("miniplayer", 10, 10, {}); //registered to out pool
+		me.game.world.addChild(game.data.miniPlayer, 31);
 	}
 
 });
