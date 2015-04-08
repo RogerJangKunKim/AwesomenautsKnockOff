@@ -51,7 +51,7 @@ game.PauseScreen = Object.extend({
 				this.font.draw(renderer.getContext(), "PRESS P TO Unpause.", this.pos.x, this.pos.y);
 			},
 		}));
-		me.game.world.addChild(game.data.pausetext, 35); //sets the buytext to 35
+		me.game.world.addChild(game.data.pausetext, 35); //sets the text to 35
 	},
 	
 });

@@ -34,7 +34,7 @@ game.SpearThrow = me.Entity.extend({
 		return true;
 	},
 	collideHandler: function(response){
-		if(response.b.type==='EnemyBase' || response.b.type==='EnemyCreep'){
+		if(response.b.type==='EnemyBase' || response.b.type==='EnemyCreep' || response.b.type==='PlayerCreep'){
 				//makes the playerbase call its losehealth function and passes it as damage of 1.
 				response.b.loseHealth(this.attack);
 				me.game.world.removeChild(this);

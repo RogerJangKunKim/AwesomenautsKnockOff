@@ -65,7 +65,7 @@ game.EnemyCreep = me.Entity.extend({
 					response.b.loseHealth(game.data.enemyCreepAttack);
 				}
 			}
-				else if(response.b.type==='PlayerEntity'){
+				else if(response.b.type==='PlayerEntity' || response.b.type==='PlayerCreep'){
 					var xdif = this.pos.x - response.b.pos.x;
 
 					this.attacking = true;
@@ -91,5 +91,3 @@ game.EnemyCreep = me.Entity.extend({
 
 		
 });
-
-

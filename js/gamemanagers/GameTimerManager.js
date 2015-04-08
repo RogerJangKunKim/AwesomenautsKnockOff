@@ -2,6 +2,7 @@ game.GameTimerManager = Object.extend({
 	init: function(x, y, settings){
 		this.now = new Date().getTime();
 		this.lastCreep = new Date().getTime();
+		this.lastCreep2 = new Date().getTime();
 		this.paused = false;
 		this.alwaysUpdate = true;
 	},
@@ -10,6 +11,7 @@ game.GameTimerManager = Object.extend({
 		this.now = new Date().getTime();
 		this.goldTimerCheck();
 		this.creepTimerCheck();
+		this.playerCreepTimerCheck();
 		return true;
 	},
 
@@ -23,10 +25,18 @@ game.GameTimerManager = Object.extend({
 
 	creepTimerCheck: function(){
 		//makes sure that this.now is a multiple of 10(%).
-		if(Math.round(this.now/1000)%10 === 0 && (this.now - this.lastCreep >= 1000)){
+		if(Math.round(this.now/1000)%10 === 0 && (this.now - this.lastCreep >= 500)){
 			this.lastCreep = this.now;
-			var creepe = me.pool.pull("EnemyCreep", 1000, 0);
-			me.game.world.addChild(creepe, 2);
+			var creepe = me.pool.pull("EnemyCreep", 1000, 0, {});
+			me.game.world.addChild(creepe, 5);
+		} 
+	},
+	playerCreepTimerCheck: function(){
+		//makes sure that this.now is a multiple of 10(%).
+		if(Math.round(this.now/1000)%10 === 0 && (this.now - this.lastCreep2 >= 500)){
+			this.lastCreep2 = this.now;
+			var creepee = me.pool.pull("PlayerCreep", 0, 0, {});
+			me.game.world.addChild(creepee, 5);
 		} 
 	},
 
